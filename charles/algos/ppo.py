@@ -48,5 +48,5 @@ class PPO(Algorithm):
         self.π.optimize(policy_loss)
 
         # optimize value network
-        value_loss = torch.pow(self.V(s) - returns, 2).mean()
+        value_loss = ((self.V(s) - returns) ** 2).mean()
         self.V.optimize(value_loss)

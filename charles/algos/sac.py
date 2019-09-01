@@ -33,8 +33,8 @@ class SAC(Algorithm):
             min_next_q = torch.min(self.Q1.target(s2, a2), self.Q2.target(s2, a2)) - (self.α * p2)
             y = r + (0.99 * m * min_next_q)
 
-        q1_loss = torch.pow(self.Q1(s, a) - y, 2).mean()
-        q2_loss = torch.pow(self.Q2(s, a) - y, 2).mean()
+        q1_loss = ((self.Q1(s, a) - y) ** 2).mean()
+        q2_loss = ((self.Q2(s, a) - y) ** 2).mean()
         self.Q1.optimize(q1_loss)
         self.Q2.optimize(q2_loss)
 

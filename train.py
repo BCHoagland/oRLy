@@ -12,5 +12,5 @@ class Config:
     epochs = 1
     explore_steps = 10000
 
-agent = Agent(SAC, Config)
+agent = Agent(PPO, Config)
 agent.train()

@@ -42,5 +42,5 @@ class A2C(Algorithm):
         self.π.optimize(policy_loss)
 
         # update value network
-        value_loss = torch.pow(returns - self.V(s), 2).mean()
+        value_loss = ((returns - self.V(s)) ** 2).mean()
         self.V.optimize(value_loss)

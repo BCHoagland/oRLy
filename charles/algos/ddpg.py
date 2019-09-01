@@ -24,7 +24,7 @@ class DDPG(Algorithm):
         s, a, r, s2, m = storage.sample()
 
         y = r + (0.99 * m * self.Q.target(s2, self.μ.target(s2)))
-        q_loss = torch.pow(self.Q(s, a) - y, 2).mean()
+        q_loss = ((self.Q(s, a) - y) ** 2).mean()
         self.Q.optimize(q_loss)
 
         policy_loss = -self.Q(s, self.μ(s)).mean()

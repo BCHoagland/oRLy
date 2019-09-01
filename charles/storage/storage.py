@@ -24,7 +24,8 @@ class Storage:
             return x
 
         # add transitions to the buffer from each agent separately
-        num_agents = data[0].shape[0]
+        if len(data[0].shape) > 1: num_agents = data[0].shape[0]
+        else: num_agents = 1
         for agent in range(num_agents):
             transition = tuple(fix(x[agent]) for x in data)
             self.buffer.append(transition)

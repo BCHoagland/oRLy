@@ -1,4 +1,5 @@
 import os
+import gym
 import torch
 import numpy as np
 from charles.env import Env
