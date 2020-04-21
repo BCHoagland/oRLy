@@ -16,11 +16,11 @@ class Env:
         self.actors = actors
 
         try:
-            self.action_space.low = torch.FloatTensor(self.action_space.low)
-            self.action_space.high = torch.FloatTensor(self.action_space.high)
+            self.action_space_low = torch.FloatTensor(self.env.action_space.low)
+            self.action_space_high = torch.FloatTensor(self.env.action_space.high)
         except:
-            self.action_space.low = None
-            self.action_space.high = None
+            self.action_space_low = None
+            self.action_space_high = None
 
     def reset(self):
         s = self.env.reset()
@@ -59,7 +59,7 @@ class TanhAction(Env):
         return getattr(self.env, k)
 
     def step(self, a):
-        a = ((torch.FloatTensor(a.cpu()) + 1) / 2) * (self.env.action_space.high - self.env.action_space.low) + self.env.action_space.low
+        a = ((torch.FloatTensor(a.cpu()) + 1) / 2) * (self.action_space_high - self.action_space_low) + self.action_space_low
         return self.env.step(a)
     
     def explore_step(self, a):
@@ -70,5 +70,5 @@ class TanhAction(Env):
     
     def random_action(self):
         a = torch.FloatTensor(np.stack([self.env.action_space.sample() for _ in range(self.actors)]))
-        a = (a - self.env.action_space.low) / (self.env.action_space.high - self.env.action_space.low) * 2 - 1
+        a = (a - self.action_space_low) / (self.action_space_high - self.action_space_low) * 2 - 1
         return a
